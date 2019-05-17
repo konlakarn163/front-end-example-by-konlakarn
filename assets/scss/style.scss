@@ -1,0 +1,58 @@
+@import 'colors';
+@import 'mixins';
+
+
+//Structure
+.tile {
+    background-color: $white;
+    border-radius: 15px;
+    padding: 16px;
+    box-shadow: $box-shadow;
+}
+
+//Button
+.primary-button{
+    @include button;
+    background: $primary;
+    border: 1px solid $primary;
+    &:hover {
+        background: $primary-shade;
+        border-color: $primary-shade;
+    }
+}
+.danger-button{
+    @include button;
+    background: $danger;
+    border: 1px solid $danger; 
+    &:hover {
+        background: $danger-shade;
+        border-color: $danger-shade;
+    } 
+}
+.warning-button{
+    @include button;
+    background: $warning;
+    border: 1px solid $warning; 
+    &:hover {
+        background: $warning-shade;
+        border-color: $warning-shade;
+    } 
+}
+.dark-button{
+    @include button;
+    background: $dark;
+    border: 1px solid $dark; 
+    &:hover {
+        background: $dark-shade;
+        border-color: $dark-shade;
+    } 
+}
+.success-button{
+    @include button;
+    background: $success;
+    border: 1px solid $success;  
+    &:hover {
+        background: $success-shade;
+        border-color: $success-shade;
+    }
+}
