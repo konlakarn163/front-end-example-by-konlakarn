@@ -1,0 +1,14 @@
+@import 'colors';
+
+@mixin button {
+    width: 150px;
+    height: 40px;
+    border-radius: 4px;
+    color: $white;
+    border: 0;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 10px 16px;
+    outline: none;
+    cursor: pointer;
+}

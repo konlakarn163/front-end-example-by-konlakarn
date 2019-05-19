@@ -1,0 +1,41 @@
+//Functions
+@function shade($color, $percentage) {
+    @return mix(black, $color, $percentage);
+}
+@function tint($color, $percentage) {
+    @return mix(white, $color, $percentage);
+}
+
+$primary : #105EFB;
+$primary-tint: tint($primary,20% );
+$primary-shade: shade($primary,30%);
+
+$success : #3FC66D;
+$success-tint: tint($success,20% );
+$success-shade: shade($success,30% );
+
+$danger: #FB4747;
+$danger-tint: tint($danger,20% );
+$danger-shade: shade($danger,30% );
+
+$warning : #F6CF56;
+$warning-tint: tint($warning,20%);
+$warning-shade: shade($warning,30% );
+
+$dark: #4a4a4a;
+$dark-tint: tint($dark,20% );
+$dark-shade: shade($dark, 30%);
+
+$text-colorA: #4a4a4a;
+$text-colorB: #6D6E71;
+$text-colorC: #C2C2C2;
+$white : #fff;
+
+$border-white-box-color: #C2C2C2;
+$box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+$background-color: #1c262f;
+$background-color-in-wrap: #252f39;
+
+$st-color: #db6d06;
+$rd-color: #C11CB5;
