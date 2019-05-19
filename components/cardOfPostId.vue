@@ -7,6 +7,14 @@
             <div class="body">
                {{post.body}}
             </div>
+            <div class="Commentator">
+                <i class="material-icons">
+                    portrait
+                </i>
+                <p class="email">
+                    email
+                </p>
+            </div>
         </div>
 
         <h2>
@@ -16,7 +24,22 @@
             <span>Comments</span>
         </h2> 
         <div class="wrapper-comment" v-for="(each,index) in comment" :key="index">
-            {{each.name}}
+            <div class="body">
+                <p class="number-comment">
+                    Comment 1
+                </p>
+                <p class="text-body">
+                    {{each.body}}
+                </p>
+            </div>
+            <div class="Commentator">
+                <i class="material-icons">
+                    portrait
+                </i>
+                <p class="email">
+                    {{each.email}}
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -61,11 +84,11 @@ export default {
         .title-post{
             color: $st-color;
             font-size: 34px;
-            margin-bottom: 20px;
         }
         .body{
             color: $text-colorC;
             font-size: 18px;
+            margin: 20px 0;
         }
     }
     h2{
@@ -78,11 +101,35 @@ export default {
             padding:0 10px;
         }
     }
-    hr{
-        border: 0;
-        height: 2px;
+    .wrapper-comment{
         background: $background-color;
-        margin: 5px 0;
+        padding: 10px;
+        margin-bottom: 20px;
+        p{
+                margin: 0;
+            }
+        .body{
+            .number-comment{
+                color: $text-colorA;
+            }
+            .text-body{
+                margin: 20px 0;
+                color: $text-colorB;
+            }
+        } 
+        
     }
+    .Commentator{
+            display: flex;
+            align-items: center;
+            color: $text-colorC;
+            .email{
+                margin-left: 10px;
+                font-size: 12px;
+                letter-spacing: 1px;
+                color: $st-color;
+            }
+        }
+
 }
 </style>
