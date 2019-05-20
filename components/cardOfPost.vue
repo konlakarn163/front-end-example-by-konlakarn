@@ -1,17 +1,17 @@
 <template>
     <div class="wrapper-nuxtlink" >
         <div class="wrapper-post" v-for="(each,index) in posts" :key="index" >
-            <nuxt-link :to="`/post/${each.id}`" class="link-post">
-                <div class="post">
-                    <div class="title">
-                        <p>{{each.title}}</p> 
+                <nuxt-link :to="`/post/${each.id}?userId=${each.userId}`" class="link-post">
+                    <div class="post">
+                        <div class="title">
+                            <p>{{each.title}}</p> 
+                        </div>
+                        <hr>
+                        <div class="body">
+                            <p>{{each.body}}</p> 
+                        </div>
                     </div>
-                    <hr>
-                    <div class="body">
-                        <p>{{each.body}}</p> 
-                    </div>
-                </div>
-            </nuxt-link>
+                </nuxt-link>
         </div>
     </div>
 </template>
@@ -24,17 +24,25 @@ export default {
     data(){
         return{
             posts:[],
+            users:[],
         }
     },
     methods:{
         getPost(){
             axios.get(`${baseUrl}/posts`).then(response =>{
                 this.posts = response.data
+                console.log(this.posts)
+            })
+        },
+        getUsers(){
+            axios.get(`${baseUrl}/users`).then(response =>{
+                this.users = response.data
             })
         }
     },
     mounted(){
         this.getPost()
+        this.getUsers()
     }
 }
 </script>
@@ -50,6 +58,7 @@ export default {
             .post{
                 background: $background-color;
                 padding: 15px 15px;
+                margin-bottom: 10px;
                 &:hover{
                     box-shadow: 0px 0px 4px $text-colorB;
                 }

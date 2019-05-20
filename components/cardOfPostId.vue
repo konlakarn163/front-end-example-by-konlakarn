@@ -7,13 +7,15 @@
             <div class="body">
                {{post.body}}
             </div>
-            <div class="Commentator">
-                <i class="material-icons">
-                    portrait
-                </i>
-                <p class="email">
-                    email
-                </p>
+            <div class="Commentator"  v-for="(user,index) in user" :key='index'>
+                <div class="Commentator-email" v-if="$route.query.userId == user.id">
+                    <i class="material-icons">
+                        portrait
+                    </i>
+                    <p class="email">
+                        {{user.email}}
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -26,7 +28,7 @@
         <div class="wrapper-comment" v-for="(each,index) in comment" :key="index">
             <div class="body">
                 <p class="number-comment">
-                    Comment 1
+                    Comment {{index = index + 1}}
                 </p>
                 <p class="text-body">
                     {{each.body}}
@@ -52,6 +54,7 @@ export default {
         return{
             post:'',
             comment:'',
+            user: '',
         }
     },
     methods:{
@@ -61,14 +64,26 @@ export default {
             })
         },
         getCommentByPostId(){
-            axios.get(`${baseUrl}/posts/${this.$route.params.idPost}/comments`).then(response =>{
+            axios.get(`${baseUrl}/comments?postId=${this.$route.params.idPost}`).then(response =>{
                 this.comment = response.data
             })
+        },
+        // getUserByPostId(){
+        //     axios.get(`${baseUrl}/posts?userId=${this.$route.query.userId}`).then(response =>{
+        //         this.user = response.data
+        //     })
+        // }
+        getEmailByuserId(){
+                axios.get(`${baseUrl}/users`).then(response=>{
+                    this.user = response.data
+                })
         }
     },
     mounted(){
         this.getPostById()
         this.getCommentByPostId()
+        this.getEmailByuserId()
+        // this.getUserByPostId()
     }
 }
 
@@ -123,12 +138,17 @@ export default {
             display: flex;
             align-items: center;
             color: $text-colorC;
-            .email{
-                margin-left: 10px;
-                font-size: 12px;
-                letter-spacing: 1px;
-                color: $st-color;
+            .Commentator-email{
+                display: flex;
+                align-items: center;
+                
             }
+            .email{
+                    margin-left: 10px;
+                    font-size: 12px;
+                    letter-spacing: 1px;
+                    color: $st-color;
+                }
         }
 
 }
