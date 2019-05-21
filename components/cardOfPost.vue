@@ -13,6 +13,9 @@
                     </div>
                 </nuxt-link>
         </div>
+        <button>
+            Load more.
+        </button>
     </div>
 </template>
 
@@ -25,13 +28,13 @@ export default {
         return{
             posts:[],
             users:[],
+            getPosts:[]
         }
     },
     methods:{
         getPost(){
             axios.get(`${baseUrl}/posts`).then(response =>{
                 this.posts = response.data
-                console.log(this.posts)
             })
         },
         getUsers(){
@@ -51,6 +54,17 @@ export default {
 @import '@/assets/scss/_colors.scss';
 @import '@/assets/scss/style.scss';
 .wrapper-nuxtlink{
+    button{
+        display: block;
+        margin: 0 auto;
+        border: none;
+        width: 100px;
+        border-radius: 4px;
+        padding: 4px;
+        color: $white;
+        background: $success;
+        cursor: pointer;
+    }
     .wrapper-post{
         margin: 10px 0;
         .link-post{
