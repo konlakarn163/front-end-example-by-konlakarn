@@ -1,16 +1,16 @@
 <template>
     <div class="container-register">
-        <div class="wrapper">
+        <div class="wrapper" @submit.prevent="register">
             <div class="title-register">
                 Register
             </div>
             <div class="wrapper-register">
-                <input type="text" placeholder="username">
-                <input type="email" placeholder="email">
-                <input type="text" placeholder="name">
+                <input type="text" placeholder="username" v-model="username">
+                <input type="email" placeholder="email" v-model="email">
+                <input type="text" placeholder="name" v-model="name">
             </div>
             <div class="btn-register">
-                <button>
+                <button @click="register">
                     Register
                 </button>
             </div>
@@ -19,8 +19,32 @@
 </template>
 
 <script>
+import axios from 'axios'
+import baseUrl from '@/baseUrl/baseUrl'
 export default {
     layout : 'navBarLayout',
+    data(){
+        return{
+            user:[],
+            username:'',
+            email:'',
+            name:''
+        }
+    },
+    methods:{
+        register(){
+            axios.post(`${baseUrl}/users`,{
+                username : this.username,
+                email : this.email,
+                name : this.name
+            }).then(response => {
+                this.user = response.data
+                this.$router.push('/post')
+                console.log(this.user)
+                alert('API จำกัดการเพิ่มข้อมูล ไม่สามารถสมัครสมาชิกได้')
+            })
+        }
+    }
 }
 </script>
 
