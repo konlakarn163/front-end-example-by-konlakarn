@@ -36,6 +36,7 @@ export default {
 
     .wrapper-post{
         background:$background-color-in-wrap ;
+        
         .title-topic{
             height: 30px;
             background-image: linear-gradient(to right, $st-color, $rd-color);
@@ -45,8 +46,6 @@ export default {
             font-size: 18px;
             display: flex;
             align-items: center;
-        }
-        .wrapper-card-post{
         }
     }
 }

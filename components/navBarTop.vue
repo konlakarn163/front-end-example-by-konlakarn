@@ -3,22 +3,30 @@
         <div class="color-overlay"/>
         <div class="wrapper-nav">
             <div class="top">
-                <div class="register">
+                <nuxt-link to="/register" class="register">
                     <i class="material-icons">
                         create
                     </i>
                     <span>Register</span>
-                </div>
-                <div class="login">
+                </nuxt-link>
+                <nuxt-link to="/login" class="login">
                     <i class="material-icons">
                         power_settings_new
                     </i>
                     <span>Login</span>
-                </div>
+                </nuxt-link>
             </div>
             <div class="title">
                 <h1>Example</h1>
                 <p>Front-end Delveloper by Konlakarn</p>
+            </div>
+            <div class="menu-bar">
+                <nuxt-link to="/post" class="home">
+                    <p>Home</p> 
+                </nuxt-link>
+                <nuxt-link to='/createPost' class="btn-create">
+                    <p>Create Post</p> 
+                </nuxt-link>
             </div>
         </div>
     </div>
@@ -62,6 +70,8 @@ export default {
                 align-items: center;
                 margin-left: 15px;
                 text-shadow: 1px 1px 3px $text-colorB;
+                text-decoration: none;
+                color: $text-colorC;
                 cursor: pointer;
                 &:hover{
                    color: $st-color; 
@@ -85,6 +95,37 @@ export default {
             h1{
                 font-size: 60px;
                 margin: 0;
+            }
+            p{
+                font-size: 18px;
+            }
+        }
+        .menu-bar{
+            display: flex;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto;
+            p{
+                margin: 0;
+                font-weight: bold;
+                font-size: 16px;
+                &:hover{
+                    text-shadow: 0px 1px 1px black;
+                    color: $st-color;
+                }
+            }
+            .home{
+                text-decoration: none;
+                color: $white;
+                margin-right: 20px;
+            }
+            .btn-create{
+                text-decoration: none;
+                color: $white;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                font-size: 14px;
             }
         }
     }

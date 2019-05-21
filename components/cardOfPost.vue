@@ -73,9 +73,10 @@ export default {
                     color:$st-color;
                     p{
                         overflow: hidden;
-                        height: 1em;
+                        height: 1.3em;
                         margin: 0 0 10px 0;
                         text-overflow: ellipsis;
+                        font-size: 18px;
                     }
                 }
                 hr { 
