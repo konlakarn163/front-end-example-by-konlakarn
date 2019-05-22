@@ -21,7 +21,7 @@
                 <p>Front-end Delveloper by Konlakarn</p>
             </div>
             <div class="menu-bar">
-                <nuxt-link to="/post" class="home">
+                <nuxt-link to="/post" class="home" >
                     <p>Home</p> 
                 </nuxt-link>
                 <nuxt-link to='/createPost' class="btn-create">
@@ -34,7 +34,6 @@
 
 <script>
 export default {
-    
 }
 </script>
 

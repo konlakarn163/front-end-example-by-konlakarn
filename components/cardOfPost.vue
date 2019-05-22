@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper-nuxtlink" >
         <div class="wrapper-post" v-for="(each,index) in posts" :key="index" >
-                <nuxt-link :to="`/post/${each.id}?userId=${each.userId}`" class="link-post">
+                <nuxt-link :to="`/post/${each.id}`" class="link-post" >
                     <div class="post">
                         <div class="title">
                             <p>{{each.title}}</p> 
@@ -25,7 +25,7 @@ export default {
         return{
             posts:[],
             users:[],
-            getPosts:[]
+            getPosts:[],
         }
     },
     methods:{
