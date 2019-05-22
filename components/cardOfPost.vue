@@ -38,7 +38,7 @@ export default {
             axios.get(`${baseUrl}/users`).then(response =>{
                 this.users = response.data
             })
-        }
+        },
     },
     mounted(){
         this.getPost()

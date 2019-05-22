@@ -7,6 +7,7 @@
             <div class="body">
                {{post.body}}
             </div>
+            <label @click="deletePost">delete</label>
             <div class="Commentator"  v-for="(user,index) in user" :key='index'>
                 <div class="Commentator-email" v-if="$route.query.userId == user.id">
                     <i class="material-icons">
@@ -34,13 +35,14 @@
                     {{each.body}}
                 </p>
             </div>
-            <div class="Commentator">
+            <div class="Commentator" >
                 <i class="material-icons">
                     portrait
                 </i>
                 <p class="email">
                     {{each.email}}
                 </p>
+                delete
             </div>
         </div>
     </div>
@@ -68,15 +70,16 @@ export default {
                 this.comment = response.data
             })
         },
-        // getUserByPostId(){
-        //     axios.get(`${baseUrl}/posts?userId=${this.$route.query.userId}`).then(response =>{
-        //         this.user = response.data
-        //     })
-        // }
         getEmailByuserId(){
-                axios.get(`${baseUrl}/users`).then(response=>{
-                    this.user = response.data
-                })
+            axios.get(`${baseUrl}/users`).then(response=>{
+                this.user = response.data
+            })
+        },
+        deletePost(){
+            axios.delete(`${baseUrl}/post/${this.$route.params.idPost}`).then(response =>{
+                this.$router.push('/post')
+                alert('Delete Success')
+            })
         }
     },
     mounted(){

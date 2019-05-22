@@ -41,7 +41,7 @@ export default {
                 this.user = response.data
                 this.$router.push('/post')
                 console.log(this.user)
-                alert('API จำกัดการเพิ่มข้อมูล ไม่สามารถสมัครสมาชิกได้')
+                alert('Register Success!')
             })
         }
     }

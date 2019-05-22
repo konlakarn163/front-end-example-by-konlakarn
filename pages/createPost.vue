@@ -44,7 +44,7 @@ export default {
                  this.post = response.data
                  this.$router.push('/post')
                  console.log(this.post)
-                 alert('API จำกัดการเพิ่มข้อมูล ไม่สามารถสร้างโพสต์ได้')
+                 alert('Create Post Success!')
              })
          }
      }
