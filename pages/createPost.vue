@@ -3,18 +3,18 @@
         <div class="title-create">
             Create Post
         </div>
-        <div class="wrapper-create">
+        <div class="wrapper-create" @submit.prevent="createPost">
             <div class="create-title">
-                <input type="text" placeholder="Title">
+                <input type="text" placeholder="Title" v-model="title">
             </div>
             <div class="create-body">
-                <textarea name="body" id="body" placeholder="Post Detail"></textarea>
+                <textarea name="body" id="body" placeholder="Post Detail" v-model="body"/>
             </div>
             <div class="btn-create-cancel">
                 <nuxt-link to="/post" class="btn cancel">
                     Cancel
                 </nuxt-link>
-                <button class="btn submit">
+                <button class="btn submit" type="submit" @click="createPost">
                     Submit
                 </button>
             </div>
@@ -23,8 +23,31 @@
 </template>
 
 <script>
+import axios from 'axios';
+import baseUrl from '@/baseUrl/baseUrl';
 export default {
      layout : 'navBarLayout',
+     data(){
+         return{
+             post:[],
+             title:'',
+             body:''
+         }
+     },
+     methods:{
+         createPost(){
+             axios.post(`${baseUrl}/posts`,
+             {
+                title : this.title,
+                body : this.body
+             }).then(response => {
+                 this.post = response.data
+                 this.$router.push('/post')
+                 console.log(this.post)
+                 alert('API จำกัดการเพิ่มข้อมูล ไม่สามารถสร้างโพสต์ได้')
+             })
+         }
+     }
 }
 </script>
 <style lang="scss">
