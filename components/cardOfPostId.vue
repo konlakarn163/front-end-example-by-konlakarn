@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper-card-id">
-        <div class="wrapper-post"  v-if="edit == true ? '':'false'">
+        <div class="wrapper-post" v-if="edit == true ? '':'false'">
             <div class="btn" >
-                <div class="btn-edit" @click="isEdit">
+                <div class="btn-edit" @click="isEdit" >
                     <i class="material-icons edit">  
                             edit
                     </i>
@@ -10,17 +10,17 @@
                         Edit
                     </div>
                 </div>
-                <div @click="itShowModal" >
+                <div @click="itShowModal">
                     <i class="material-icons">  
                         delete
                     </i>
                     <label class="delete">Delete</label> 
                 </div>
             </div>
-            <div class="title-post" >
+            <div class="title-post">
                 {{post.title}}
             </div>
-            <div class="body" >
+            <div class="body">
                 {{post.body}}
             </div>
             <div class="Commentator"  v-for="(user,index) in user" :key='index'>
@@ -29,24 +29,25 @@
                         portrait
                     </i>
                     <p class="email">
-                        {{user.email}}
+                        {{user.username}}
                     </p>
                 </div>
             </div>
         </div>
         <div class="wrapper-post" v-if="edit">
-            <div class="title-post">
+            <div class="title-post" >
                 <input 
                     type="text"  
-                    :value="`${post.title}`"
-                />
+                    v-model="title"
+                >
             </div>
-            <div class="body" >
+            <div class="body">
                 <textarea 
                     name="body" 
                     id="body" 
-                    :value="`${post.body}`"
-                />
+                    v-model="body"
+                >
+                </textarea>
             </div>
             <div class="Commentator"  v-for="(user,index) in user" :key='index'>
                 <div class="Commentator-email" v-if="$route.query.userId == user.id">
@@ -58,8 +59,8 @@
                     </p>
                 </div>
             </div>
-            <div class="btn-success"  @click="editSuccess">
-                <button>
+            <div class="btn-success" @click="editSuccess">
+                <button @click="isEditPost">
                     Save
                 </button>
             </div>
@@ -77,14 +78,19 @@
                     Comment {{index = index + 1}}
                 </p>
                 <p class="text-body">
-                    {{each.body}}
+                    {{each.commentbody}}
                 </p>
             </div>
         </div>
-        <div class="input-comment">
+        <div class="input-comment" @submit.prevent="Comment">
             <div class="comment">
-                <textarea name="comment" id="comment" cols="100" rows="10" placeholder="Comment Here"></textarea>
-                <button>
+                <textarea 
+                    name="comment" 
+                    id="comment" 
+                    placeholder="Comment Here"
+                    v-model="commentbody"
+                />
+                <button @click="Comment" >
                     Send
                 </button>
             </div>
@@ -105,6 +111,9 @@
                 </div>
             </div>
         </div>
+        <div class="loadingContainer" v-if="invisible">
+            <div class="loading" id="itShowLoding"/>
+        </div>
     </div>
 </template>
 
@@ -115,16 +124,42 @@ export default {
     data(){
         return{
             post:'',
+            userId: '',
             comment:'',
             user: '',
             modal: false,
-            edit: false
+            edit: false,
+            editPost: [],
+            createComment: [],
+            body: '',
+            title: '',
+            commentbody:'',
+            postId: null,
+            invisible: true
         }
     },
     methods:{
+        isEditPost(){
+            const id = parseInt(this.$route.params.idPost)
+            axios.put(`${baseUrl}/posts/${id}`,
+                {
+                    title : this.title,
+                    body : this.body,
+                    id : this.id,
+                    userId : this.userId
+                }).then(response=>{
+                    this.editPost = response.data
+                    console.log(response.data)
+                    this.$router.push(`/post/${this.$route.params.idPost}`)
+                    setInterval(this.getPostById, 0);
+                })
+        },
         getPostById(){
             axios.get(`${baseUrl}/posts/${this.$route.params.idPost}`).then(response =>{
                 this.post = response.data
+                this.title = response.data.title
+                this.body = response.data.body
+                this.invisible = false
             })
         },
         getCommentByPostId(){
@@ -140,7 +175,19 @@ export default {
         deletePost(){
             axios.delete(`${baseUrl}/posts/${this.$route.params.idPost}`).then(response =>{
                 this.$router.push('/post')
-                alert('Delete Success')
+            })
+        },
+        Comment(){
+            const postId = parseInt(this.$route.params.idPost)
+            axios.post(`${baseUrl}/comments`,
+            {
+                commentbody : this.commentbody,
+                postId : postId
+            }).then(response =>{
+                this.createComment = response.data
+                this.$router.push(`/post/${this.$route.params.idPost}`)
+                this.commentbody = null
+                setInterval(this.getCommentByPostId, 0);
             })
         },
         itShowModal(){
@@ -171,10 +218,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/_colors.scss';
+@import '@/assets/scss/responsive.scss';
 .wrapper-card-id{
     .wrapper-post{
         background: $background-color;
-        padding: 10px;
+        padding: 20px;
         margin-bottom: 20px; 
         .btn-success{
             margin-bottom: 5px;
@@ -195,12 +243,17 @@ export default {
             justify-content: flex-end;
             font-size: 12px;
             letter-spacing: 0.7px;
+            @include respond-to($phone){
+                font-size: 10px;
+                margin-bottom: 10px;
+            }
             .btn-edit{
                 margin-right: 10px;
                 cursor: pointer;
             }
             .delete{
                 color: $danger;
+                cursor: pointer;
             }
             div{
                 display: flex;
@@ -222,6 +275,9 @@ export default {
             font-size: 24px;
             display: block;
             width: 99%;
+            @include respond-to($phone){
+                font-size: 14px
+            }
             input{
                 background: $background-color-in-wrap;
                 border: 0;
@@ -231,6 +287,9 @@ export default {
                 font-size: 18px;
                 width: 70%;
                 margin-top: 10px;
+                @include respond-to($phone){
+                font-size: 14px
+                }
             }
         }
         .body{
@@ -238,6 +297,9 @@ export default {
             font-size: 16px;
             margin: 20px 0;
             width: 99%;
+            @include respond-to($phone){
+                font-size: 12px
+            }
             textarea{
                 width: 100%;
                 background: $background-color-in-wrap;
@@ -246,6 +308,10 @@ export default {
                 height: 100px;;
                 color: $text-colorC;
                 padding: 5px;
+                resize: none;
+                @include respond-to($phone){
+                    font-size: 12px
+                }
             }
         }
     }
@@ -273,6 +339,7 @@ export default {
                 font-size: 16px;
                 height: 100px;
                 outline: none;
+                resize: none;
             }
             button{
                 border: none;
@@ -303,6 +370,9 @@ export default {
             .text-body{
                 margin: 20px 0;
                 color: $text-colorB;
+                @include respond-to($phone){
+                font-size: 10px;
+                }
             }
         } 
         
@@ -321,6 +391,9 @@ export default {
                     font-size: 12px;
                     letter-spacing: 1px;
                     color: $st-color;
+                    @include respond-to($phone){
+                        font-size: 10px
+                    }
                 }
         }
     .showModal{
@@ -379,6 +452,31 @@ export default {
                 }
             }
         }
+    }
+}
+.loadingContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(0,0,0,0.9);
+    .loading {
+        border: 5px solid $primary;
+        border-top: 5px solid transparent;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
     }
 }
 </style>

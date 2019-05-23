@@ -6,6 +6,7 @@
             </div>
             <div class="wrapper-register">
                 <input type="text" placeholder="username" v-model="username">
+                <input type="password" placeholder="password" v-model="password">
                 <input type="email" placeholder="email" v-model="email">
                 <input type="text" placeholder="name" v-model="name">
             </div>
@@ -28,7 +29,8 @@ export default {
             user:[],
             username:'',
             email:'',
-            name:''
+            name:'',
+            password:''
         }
     },
     methods:{
@@ -36,7 +38,8 @@ export default {
             axios.post(`${baseUrl}/users`,{
                 username : this.username,
                 email : this.email,
-                name : this.name
+                name : this.name,
+                password : this.password
             }).then(response => {
                 this.user = response.data
                 this.$router.push('/post')
@@ -51,6 +54,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/_colors.scss';
 @import '@/assets/scss/style.scss';
+@import '@/assets/scss/responsive.scss';
 
 .container-register{
     margin: 5% auto;
@@ -61,6 +65,9 @@ export default {
         margin-top: 20px;
         padding: 20px 20px 10px 20px;
         border-radius: 4px;
+        @include respond-to($phone){
+            width: auto;
+        }
         .title-register{
             color: $white;
             font-weight: bold;
@@ -77,6 +84,9 @@ export default {
                 padding: 4px;
                 outline: none;
                 width: 60%;
+                @include respond-to($phone){
+                width: auto;
+                }
             }
         }
         .btn-register{

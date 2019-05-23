@@ -22,6 +22,8 @@ export default {
 
 <style lang="scss" scope>
 @import '@/assets/scss/_colors.scss';
+
+
 html, body, #__nuxt , #__layout{
     margin: 0;
     height: 100%;

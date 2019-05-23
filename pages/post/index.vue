@@ -5,7 +5,9 @@
                 <p>Topic</p>
             </div>
             <div class="wrapper-card-post">
-                    <cardOfPost/>
+                    <cardOfPost
+                    :post="getPost"
+                    />
             </div>
         </div>
     </div>
@@ -23,15 +25,28 @@ export default {
     data(){
         return{
             post: [],
-            receive: ''
+            invisible: false
         }
-    }
+    },
+    computed: {
+        getterPost(){
+            return this.$store.getter['postStore/isSearch']
+        },
+        getPost(){
+            if(this.$store.state.postStore.searchPost !== ''){
+                return this.getterPost
+            }
+        }
+
+    },
+    // mounted(){
+    //     this.$store.commit('postStore/clearSearch')
+    // },
 }
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/scss/_colors.scss';
-
 .container-posts{
 
     .wrapper-post{
@@ -47,7 +62,7 @@ export default {
             display: flex;
             align-items: center;
         }
-    }
+    } 
 }
 </style>
 

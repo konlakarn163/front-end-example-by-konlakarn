@@ -53,6 +53,7 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/_colors.scss';
 @import '@/assets/scss/style.scss';
+@import '@/assets/scss/responsive.scss';
 
 .container-create{
     .title-create{
@@ -76,11 +77,15 @@ export default {
                 padding: 5px;
                 color: $text-colorB;
                 outline: none;
+                @include respond-to($phone){
+                    width: auto;
+                }
             }
         }
         .create-body{
+            margin: 0 auto;
+            display: flex;
             textarea{
-                width: 99%;
                 padding: 5px;
                 color: $text-colorB;
                 outline: none;

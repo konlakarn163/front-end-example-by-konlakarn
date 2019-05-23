@@ -1,17 +1,20 @@
 <template>
     <div class="wrapper-nuxtlink" >
-        <div class="wrapper-post" v-for="(each,index) in posts" :key="index" >
-                <nuxt-link :to="`/post/${each.id}`" class="link-post" >
+        <div class="wrapper-post" v-for="(post,index) in post" :key="index" >
+                <nuxt-link :to="`/post/${post.id}?userId=${post.userId}`" class="link-post" >
                     <div class="post">
                         <div class="title">
-                            <p>{{each.title}}</p> 
+                            <p>{{post.title}}</p> 
                         </div>
                         <hr>
                         <div class="body">
-                            <p>{{each.body}}</p> 
+                            <p>{{post.body}}</p> 
                         </div>
                     </div>
                 </nuxt-link>
+        </div>
+        <div class="loadingContainer" v-if="invisible">
+            <div class="loading" id="itShowLoding"/>
         </div>
     </div>
 </template>
@@ -23,15 +26,16 @@ import baseUrl from '@/baseUrl/baseUrl'
 export default {
     data(){
         return{
-            posts:[],
             users:[],
-            getPosts:[],
+            post:[],
+            invisible: true
         }
     },
     methods:{
         getPost(){
             axios.get(`${baseUrl}/posts`).then(response =>{
-                this.posts = response.data
+                this.post = response.data
+                this.invisible = false
             })
         },
         getUsers(){
@@ -50,6 +54,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/_colors.scss';
 @import '@/assets/scss/style.scss';
+@import '@/assets/scss/responsive.scss';
 .wrapper-nuxtlink{
     .wrapper-post{
         margin: 10px 0;
@@ -77,6 +82,9 @@ export default {
                         margin: 0 0 10px 0;
                         text-overflow: ellipsis;
                         font-size: 18px;
+                        @include respond-to($phone){
+                            font-size: 12px
+                        }
                     }
                 }
                 hr { 
@@ -93,11 +101,39 @@ export default {
                         height: 1em;
                         margin: 0;
                         text-overflow: ellipsis;
+                        @include respond-to($phone){
+                            font-size: 10px
+                        }
                     }
                 }
     
             }
         }
+    }
+}
+.loadingContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(0,0,0,0.9);
+    .loading {
+        border: 5px solid $primary;
+        border-top: 5px solid transparent;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
     }
 }
 </style>
