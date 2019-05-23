@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper-card-id">
-        <div class="wrapper-post" >
+        <div class="wrapper-post"  v-if="edit == true ? '':'false'">
             <div class="btn" >
-                <div class="btn-edit" @click="isEdit" v-if="edit == true ? '':'false'">
+                <div class="btn-edit" @click="isEdit">
                     <i class="material-icons edit">  
                             edit
                     </i>
@@ -10,26 +10,38 @@
                         Edit
                     </div>
                 </div>
-                <div @click="itShowModal" v-if="edit == true ? '':'false'">
+                <div @click="itShowModal" >
                     <i class="material-icons">  
                         delete
                     </i>
                     <label class="delete">Delete</label> 
                 </div>
             </div>
-            <div class="title-post" v-if="edit == true ? '':'false'">
+            <div class="title-post" >
                 {{post.title}}
             </div>
-            <div class="body" v-if="edit == true ? '':'false'">
+            <div class="body" >
                 {{post.body}}
             </div>
-            <div class="title-post" v-if="edit">
+            <div class="Commentator"  v-for="(user,index) in user" :key='index'>
+                <div class="Commentator-email" v-if="$route.query.userId == user.id">
+                    <i class="material-icons">
+                        portrait
+                    </i>
+                    <p class="email">
+                        {{user.email}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper-post" v-if="edit">
+            <div class="title-post">
                 <input 
                     type="text"  
                     :value="`${post.title}`"
                 />
             </div>
-            <div class="body" v-if="edit">
+            <div class="body" >
                 <textarea 
                     name="body" 
                     id="body" 
@@ -46,7 +58,7 @@
                     </p>
                 </div>
             </div>
-            <div class="btn-success" v-if="edit" @click="editSuccess">
+            <div class="btn-success"  @click="editSuccess">
                 <button>
                     Save
                 </button>
