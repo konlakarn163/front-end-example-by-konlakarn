@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper-card-id">
-        <div class="wrapper-post" >
+        <div class="wrapper-post" v-if="edit == true ? '':'false'">
             <div class="btn" >
-                <div class="btn-edit" @click="isEdit" v-if="edit == true ? '':'false'">
+                <div class="btn-edit" @click="isEdit" >
                     <i class="material-icons edit">  
                             edit
                     </i>
@@ -10,31 +10,18 @@
                         Edit
                     </div>
                 </div>
-                <div @click="itShowModal" v-if="edit == true ? '':'false'">
+                <div @click="itShowModal">
                     <i class="material-icons">  
                         delete
                     </i>
                     <label class="delete">Delete</label> 
                 </div>
             </div>
-            <div class="title-post" v-if="edit == true ? '':'false'">
+            <div class="title-post">
                 {{post.title}}
             </div>
-            <div class="body" v-if="edit == true ? '':'false'">
+            <div class="body">
                 {{post.body}}
-            </div>
-            <div class="title-post" v-if="edit">
-                <input 
-                    type="text"  
-                    :value="`${post.title}`"
-                />
-            </div>
-            <div class="body" v-if="edit">
-                <textarea 
-                    name="body" 
-                    id="body" 
-                    :value="`${post.body}`"
-                />
             </div>
             <div class="Commentator"  v-for="(user,index) in user" :key='index'>
                 <div class="Commentator-email" v-if="$route.query.userId == user.id">
@@ -46,8 +33,34 @@
                     </p>
                 </div>
             </div>
-            <div class="btn-success" v-if="edit" @click="editSuccess">
-                <button>
+        </div>
+        <div class="wrapper-post" v-if="edit">
+            <div class="title-post" >
+                <input 
+                    type="text"  
+                    v-model="title"
+                >
+            </div>
+            <div class="body">
+                <textarea 
+                    name="body" 
+                    id="body" 
+                    v-model="this.body"
+                >
+                </textarea>
+            </div>
+            <div class="Commentator"  v-for="(user,index) in user" :key='index'>
+                <div class="Commentator-email" v-if="$route.query.userId == user.id">
+                    <i class="material-icons">
+                        portrait
+                    </i>
+                    <p class="email">
+                        {{user.email}}
+                    </p>
+                </div>
+            </div>
+            <div class="btn-success" @click="editSuccess">
+                <button @click="isEditPost">
                     Save
                 </button>
             </div>
@@ -65,14 +78,19 @@
                     Comment {{index = index + 1}}
                 </p>
                 <p class="text-body">
-                    {{each.body}}
+                    {{each.commentbody}}
                 </p>
             </div>
         </div>
-        <div class="input-comment">
+        <div class="input-comment" @submit.prevent="Comment">
             <div class="comment">
-                <textarea name="comment" id="comment" cols="100" rows="10" placeholder="Comment Here"></textarea>
-                <button>
+                <textarea 
+                    name="comment" 
+                    id="comment" 
+                    placeholder="Comment Here"
+                    v-model="commentbody"
+                />
+                <button @click="Comment" >
                     Send
                 </button>
             </div>
@@ -106,13 +124,35 @@ export default {
             comment:'',
             user: '',
             modal: false,
-            edit: false
+            edit: false,
+            editPost: [],
+            createComment: [],
+            body: '',
+            title: '',
+            commentbody:'',
+            postId: null
         }
     },
     methods:{
+        isEditPost(){
+            const id = parseInt(this.$route.params.idPost)
+            axios.put(`${baseUrl}/posts/${id}`,
+                {
+                    title : this.title,
+                    body : this.body,
+                    id : this.id
+                }).then(response=>{
+                    this.editPost = response.data
+                    console.log(response.data)
+                    this.$router.push(`/post/${this.$route.params.idPost}`)
+                    setInterval(this.getPostById, 1000);
+                })
+        },
         getPostById(){
             axios.get(`${baseUrl}/posts/${this.$route.params.idPost}`).then(response =>{
                 this.post = response.data
+                this.title = response.data.title
+                this.body = response.data.body
             })
         },
         getCommentByPostId(){
@@ -129,6 +169,19 @@ export default {
             axios.delete(`${baseUrl}/posts/${this.$route.params.idPost}`).then(response =>{
                 this.$router.push('/post')
                 alert('Delete Success')
+            })
+        },
+        Comment(){
+            const postId = parseInt(this.$route.params.idPost)
+            axios.post(`${baseUrl}/comments`,
+            {
+                commentbody : this.commentbody,
+                postId : postId
+            }).then(response =>{
+                this.createComment = response.data
+                this.$router.push(`/post/${this.$route.params.idPost}`)
+                this.commentbody = null
+                setInterval(this.getCommentByPostId, 1000);
             })
         },
         itShowModal(){
@@ -162,7 +215,7 @@ export default {
 .wrapper-card-id{
     .wrapper-post{
         background: $background-color;
-        padding: 10px;
+        padding: 20px;
         margin-bottom: 20px; 
         .btn-success{
             margin-bottom: 5px;

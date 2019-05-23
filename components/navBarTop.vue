@@ -2,31 +2,35 @@
     <div class="container-navbar">
         <div class="color-overlay"/>
         <div class="wrapper-nav">
-            <div class="top">
-                <nuxt-link to="/register" class="register">
-                    <i class="material-icons">
-                        create
-                    </i>
-                    <span>Register</span>
-                </nuxt-link>
-                <nuxt-link to="/login" class="login">
-                    <i class="material-icons">
-                        power_settings_new
-                    </i>
-                    <span>Login</span>
-                </nuxt-link>
-            </div>
             <div class="title">
                 <h1>Example</h1>
                 <p>Front-end Delveloper by Konlakarn</p>
             </div>
             <div class="menu-bar">
-                <nuxt-link to="/post" class="home" >
-                    <p>Home</p> 
-                </nuxt-link>
-                <nuxt-link to='/createPost' class="btn-create">
-                    <p>Create Post</p> 
-                </nuxt-link>
+                <div class="menu-title">
+                    <div class="title-nav">
+                        <nuxt-link to="/post" class="home btn" >
+                            <p>Home</p> 
+                        </nuxt-link>
+                        <nuxt-link to='/createPost' class="btn-create btn">
+                            <p>Create Post</p> 
+                        </nuxt-link>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search">
+                        <i class="material-icons">
+                            search
+                        </i>
+                        <div class="top">
+                            <nuxt-link to="/register" class="register">
+                                <span>Register</span>
+                            </nuxt-link>
+                            <nuxt-link to="/login" class="login">
+                                <span>Login</span>
+                            </nuxt-link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -42,10 +46,11 @@ export default {
 
 .container-navbar{
     background: url('/Molecules.jpg') no-repeat;
-    height: 180px;
+    height: 240px;
     background-size: cover;
     display: flex;
     position: relative;
+    width: 100%;
     .color-overlay {
         width: 100%;
         height: 100%;
@@ -54,40 +59,19 @@ export default {
         position: absolute;
     }
     .wrapper-nav{
-        padding: 10px 0;
-        width: 99%;
+        padding: 10px 0 0 0;
+        width: 100%;
         position: absolute;
         display: flex;
         flex-direction: column;
-        .top{
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            color:$white;
-            .register,.login{
-                display: flex;
-                align-items: center;
-                margin-left: 15px;
-                text-shadow: 1px 1px 3px $text-colorB;
-                text-decoration: none;
-                color: $text-colorC;
-                cursor: pointer;
-                &:hover{
-                   color: $st-color; 
-                   text-shadow: none;
-                }
-            }
-            .material-icons{
-                font-size: 16px !important;
-                margin-right: 3px!important;
-            }
-        }
+        
         .title{
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: $white;
+            margin: 30px 0;
             letter-spacing: 1px;
             font-weight: bold;
             text-shadow: 1px 1px 10px $rd-color;
@@ -100,31 +84,95 @@ export default {
             }
         }
         .menu-bar{
+            width: 100%;
             display: flex;
-            align-items: center;
-            width: 90%;
             margin: 0 auto;
-            p{
-                margin: 0;
-                font-weight: bold;
-                font-size: 16px;
-                &:hover{
-                    text-shadow: 0px 1px 1px black;
-                    color: $st-color;
-                }
-            }
-            .home{
-                text-decoration: none;
-                color: $white;
-                margin-right: 20px;
-            }
-            .btn-create{
-                text-decoration: none;
-                color: $white;
+            background: $background-color;
+            .menu-title{
                 display: flex;
+                justify-content: space-between;
+                margin: 0 47px;
+                background: $background-color-in-wrap;
+                border: 1px solid $background-color;
+                border-left: none;
+                border-right: none;
+                width: 100%;
                 align-items: center;
-                justify-content: flex-end;
-                font-size: 14px;
+                .title-nav{
+                align-items: center;
+                display: flex;
+                height: 47px;
+                    p{
+                        margin: 0;
+                        font-weight: bold;
+                        font-size: 16px;
+                    }
+                    .btn{
+                        text-decoration: none;
+                        color: $white;
+                        padding: 0 10px;
+                        border: 1px solid $background-color;
+                        border-left: none;
+                        height: 100%;
+                        width: 80px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        &:hover{
+                            background: $background-color;
+                            border-left: none;
+                        }
+                    }
+                }
+                .search-bar{
+                    padding: 0 0 0 20px;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    input{
+                        background: $white;
+                        padding: 4px 10px;
+                        height: 18px;
+                        width: 200px;
+                        border: none;
+                        outline: none;
+                    }
+                    .material-icons{
+                        background: $white;
+                        color: $background-color;
+                        padding: 4px ;
+                        height: 18px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .top{
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                        color:$white;
+                        margin-left: 10px;
+                        height: 100%;
+                        .register,.login{
+                            padding: 0 20px;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            text-decoration: none;
+                            justify-content: center;
+                            color: $white;
+                            cursor: pointer;
+                            padding: 0 10px;
+                            border: 1px solid $background-color;
+                            border-right: none;
+                            width: 80px;
+                            &:hover{
+                            background: $background-color;
+                            border-right: none;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
