@@ -1,22 +1,5 @@
-# frontend-example
+# frontend-example เป็น Project ที่สร้างขึ้นด้วย Vue โดยมี Nuxt.js ครอบ Vue ไว้อีกที
 
-> My divine Nuxt.js project
+หลังจากที่ Clone Project แล้ว นั้นพิมคำสั่ง yarn เพื่อ ลง node_modules และ packege ต่างๆ
 
-## Build Setup
-
-``` bash
-# install dependencies
-$ yarn install
-
-# serve with hot reload at localhost:3000
-$ yarn run dev
-
-# build for production and launch server
-$ yarn run build
-$ yarn start
-
-# generate static project
-$ yarn run generate
-```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+เพื่อ run project หลังจากนั้น run project ด้วยคำสั่ง yarn dev
