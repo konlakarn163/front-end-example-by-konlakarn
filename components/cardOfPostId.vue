@@ -23,16 +23,6 @@
             <div class="body">
                 {{post.body}}
             </div>
-            <div class="Commentator"  v-for="(user,index) in user" :key='index'>
-                <div class="Commentator-email" v-if="$route.query.userId == user.id">
-                    <i class="material-icons">
-                        portrait
-                    </i>
-                    <p class="email">
-                        {{user.username}}
-                    </p>
-                </div>
-            </div>
         </div>
         <div class="wrapper-post" v-if="edit">
             <div class="title-post" >
@@ -48,16 +38,6 @@
                     v-model="body"
                 >
                 </textarea>
-            </div>
-            <div class="Commentator"  v-for="(user,index) in user" :key='index'>
-                <div class="Commentator-email" v-if="$route.query.userId == user.id">
-                    <i class="material-icons">
-                        portrait
-                    </i>
-                    <p class="email">
-                        {{user.email}}
-                    </p>
-                </div>
             </div>
             <div class="btn-success" @click="editSuccess">
                 <button @click="isEditPost">
@@ -124,7 +104,6 @@ export default {
     data(){
         return{
             post:'',
-            userId: '',
             comment:'',
             user: '',
             modal: false,
@@ -145,8 +124,7 @@ export default {
                 {
                     title : this.title,
                     body : this.body,
-                    id : this.id,
-                    userId : this.userId
+                    id : this.id
                 }).then(response=>{
                     this.editPost = response.data
                     console.log(response.data)

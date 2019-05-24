@@ -43,7 +43,6 @@ export default {
              }).then(response => {
                  this.post = response.data
                  this.$router.push('/post')
-                 console.log(this.post)
                  alert('Create Post Success!')
              })
          }
@@ -90,6 +89,8 @@ export default {
                 color: $text-colorB;
                 outline: none;
                 min-height: 200px;
+                width: 100%;
+                resize: none;
             }
 
         }

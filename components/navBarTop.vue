@@ -18,7 +18,7 @@
                     </div>
                     <div class="search-bar">
                         <div>
-                            <input type="text" placeholder="Search">
+                            <input type="text" placeholder="Search" v-model="searchPosts">
                             <i class="material-icons">
                                 search
                             </i>
@@ -47,7 +47,7 @@ export default {
     },
     watch:{
         searchPosts(value){
-            this.$store.commit('postStore/searchPost', value)
+            this.state.commit('postStore/searchPost', value)
         }
     }
 }

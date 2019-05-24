@@ -33,30 +33,39 @@ export default {
     data(){
         return{
                 username: '',
-                password: ''
+                password: '',
+                checkLogin: false
         }
     },
     methods:{
         login(){
-            axios.post('http://localhost:4321/users',
-            {
-                username: this.username, 
-                password: this.password
-            }).then(response =>{
-                if(this.username != '' && this.password != ""){
-                    if(this.username == this.username && this.password == this.password){
-                        this.$emit("authenticated", true)
-                        this.$router.push('/post')
+            if(this.username != '' && this.password != ''){
+                axios.get('http://localhost:4321/users').then(response =>{
+                    if(this.username == response.data.username && this.password == response.data.password){
+                        console.log(response.data.username)
+                        alert('Success')
                     }
-                    else {
-                                console.log("The username and / or password is incorrect");
+                    else{
+                        alert('Username and Password do not match.')
+                        console.log(response.data)
                     }
-                }
-                else {
-                        console.log("A username and password must be present");
-                    }
-            })
-        }
+                    // for(let i=0;i<response.data.length;i++){
+                    //     if(this.username == response.data[i].username && this.password == response.data[i].password){
+                    //         // this.$state.commit('store/statusLogin',response.data)
+                    //         console.log(response.data)
+                    //         alert('Login success')
+                    //     }
+                    //     else{
+                    //         alert('Username and Password do not match.')
+                    //         console.log(response.data)
+                    //     }
+                    // }
+                })
+            }
+            else{
+                alert('Please insert you account!')
+            }
+        } 
     }
 }
 </script>

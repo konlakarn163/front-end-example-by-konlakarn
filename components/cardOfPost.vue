@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper-nuxtlink" >
         <div class="wrapper-post" v-for="(post,index) in post" :key="index" >
-                <nuxt-link :to="`/post/${post.id}?userId=${post.userId}`" class="link-post" >
+                <nuxt-link :to="`/post/${post.id}`" class="link-post" >
                     <div class="post">
                         <div class="title">
                             <p>{{post.title}}</p> 
