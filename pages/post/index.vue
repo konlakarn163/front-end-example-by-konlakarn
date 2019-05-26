@@ -5,9 +5,7 @@
                 <p>Topic</p>
             </div>
             <div class="wrapper-card-post">
-                    <cardOfPost
-                    :post="getPost"
-                    />
+                    <cardOfPost/>
             </div>
         </div>
     </div>
@@ -24,24 +22,9 @@ export default {
     },
     data(){
         return{
-            post: [],
             invisible: false
         }
     },
-    computed: {
-        getterPost(){
-            return this.$store.getter['postStore/isSearch']
-        },
-        getPost(){
-            if(this.$store.state.postStore.searchPost !== ''){
-                return this.getterPost
-            }
-        }
-
-    },
-    // mounted(){
-    //     this.$store.commit('postStore/clearSearch')
-    // },
 }
 </script>
 

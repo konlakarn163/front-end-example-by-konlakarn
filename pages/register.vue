@@ -26,11 +26,12 @@ export default {
     layout : 'navBarLayout',
     data(){
         return{
-            user:[],
+            user:{},
             username:'',
             email:'',
             name:'',
-            password:''
+            password:'',
+
         }
     },
     methods:{
@@ -39,15 +40,16 @@ export default {
                 username : this.username,
                 email : this.email,
                 name : this.name,
-                password : this.password
+                password : this.password,
             }).then(response => {
                 this.user = response.data
+                this.$store.commit('loginStore/createUser', this.user)
+                alert('Register Success!')
                 this.$router.push('/post')
                 console.log(this.user)
-                alert('Register Success!')
             })
         }
-    }
+    },
 }
 </script>
 

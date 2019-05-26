@@ -3,7 +3,7 @@
         <div class="title-create">
             Create Post
         </div>
-        <div class="wrapper-create" @submit.prevent="createPost">
+        <div class="wrapper-create" @submit.prevent="createPost" v-if="checkLogin == null?'':'disabled'">
             <div class="create-title">
                 <input type="text" placeholder="Title" v-model="title">
             </div>
@@ -18,6 +18,9 @@
                     Submit
                 </button>
             </div>
+        </div>
+        <div class="wrapper-empty" v-if="checkLogin != null?'':'disabled'">
+            Please login before create post.
         </div>
     </div>
 </template>
@@ -46,7 +49,12 @@ export default {
                  alert('Create Post Success!')
              })
          }
-     }
+     },
+     computed:{
+        checkLogin() {
+            return this.$store.state.loginStore.statusLogin
+        },
+    },
 }
 </script>
 <style lang="scss">
@@ -124,6 +132,15 @@ export default {
                 }
             }
         }
+    }
+    .wrapper-empty{
+        background: $background-color;
+        padding: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 28px;
+        text-align: center;
+        color:$text-colorA;
     }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper-card-id">
         <div class="wrapper-post" v-if="edit == true ? '':'false'">
-            <div class="btn" >
+            <div class="btn" v-if="checkLogin == null?'':'disabled'" >
                 <div class="btn-edit" @click="isEdit" >
                     <i class="material-icons edit">  
                             edit
@@ -62,7 +62,7 @@
                 </p>
             </div>
         </div>
-        <div class="input-comment" @submit.prevent="Comment">
+        <div class="input-comment" @submit.prevent="Comment" v-if="checkLogin == null?'':'disabled'">
             <div class="comment">
                 <textarea 
                     name="comment" 
@@ -74,6 +74,9 @@
                     Send
                 </button>
             </div>
+        </div>
+        <div class="wrapper-empty" v-if="checkLogin != null?'':'disabled'">
+            Please login before comment.
         </div>
         <div class="showModal" v-if="modal" @click="itCloseModal">
             <div class="detail">
@@ -189,7 +192,12 @@ export default {
         this.getPostById()
         this.getCommentByPostId()
         this.getEmailByuserId()
-    }
+    },
+    computed:{
+        checkLogin() {
+            return this.$store.state.loginStore.statusLogin
+        },
+    },
 }
 
 </script>
@@ -333,6 +341,16 @@ export default {
                 margin: 10px 0;
             }
         }
+    }
+    .wrapper-empty{
+        background: $background-color;
+        padding: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 28px;
+        text-align: center;
+        color:$text-colorA;
+        margin-bottom: 10px;
     }
     .wrapper-comment{
         background: $background-color;

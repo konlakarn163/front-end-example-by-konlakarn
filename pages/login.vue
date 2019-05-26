@@ -34,39 +34,36 @@ export default {
         return{
                 username: '',
                 password: '',
-                checkLogin: false
+                statusLogin: null
         }
     },
     methods:{
-        login(){
-            if(this.username != '' && this.password != ''){
-                axios.get('http://localhost:4321/users').then(response =>{
-                    if(this.username == response.data.username && this.password == response.data.password){
-                        console.log(response.data.username)
-                        alert('Success')
+       login() {                        
+            const findUser = this.$store.state.loginStore.users.find((each) => {
+                return each.username === this.username
+            })
+            if(findUser){
+                if(findUser.username !== this.username && findUser.password !== this.password) {
+                    alert('Not found this user')
+                }
+                if(findUser.password === this.password){  
+                    this.$store.commit('loginStore/userLogin', findUser)
+                    this.$router.push('/')
                     }
-                    else{
-                        alert('Username and Password do not match.')
-                        console.log(response.data)
-                    }
-                    // for(let i=0;i<response.data.length;i++){
-                    //     if(this.username == response.data[i].username && this.password == response.data[i].password){
-                    //         // this.$state.commit('store/statusLogin',response.data)
-                    //         console.log(response.data)
-                    //         alert('Login success')
-                    //     }
-                    //     else{
-                    //         alert('Username and Password do not match.')
-                    //         console.log(response.data)
-                    //     }
-                    // }
-                })
+                } 
+                else {
+                    alert('login error !!')
+                }
+            } 
+        },
+        mounted(){
+            if (localStorage.getItem('reloaded')) {
+                    localStorage.removeItem('reloaded');
+            } else {
+            localStorage.setItem('reloaded', '1');
+            location.reload();
             }
-            else{
-                alert('Please insert you account!')
-            }
-        } 
-    }
+        }
 }
 </script>
 

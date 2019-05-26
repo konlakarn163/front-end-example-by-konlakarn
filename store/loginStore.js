@@ -1,11 +1,15 @@
 export const state = () => ({
-    users:[] 
+    users:[] ,
+    statusLogin: null
 })
-export const mutation ={
-    statusLogin(state,data){
-        state.status = data
+export const mutations ={
+    createUser(state, data) {
+        state.users.push(data)
     },
-    statusNone(state){
-        state.status = false
-    }
+    userLogin(state, data) {
+        state.statusLogin = data
+    },
+    userLogout(state) {
+        state.statusLogin = null
+    },
 }

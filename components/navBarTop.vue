@@ -18,18 +18,23 @@
                     </div>
                     <div class="search-bar">
                         <div>
-                            <input type="text" placeholder="Search" v-model="searchPosts">
+                            <input type="text" placeholder="Search" disabled>
                             <i class="material-icons">
                                 search
                             </i>
                         </div>
                         <div class="top">
-                            <nuxt-link to="/register" class="register">
+                            <nuxt-link to="/register" class="register" v-if="checkLogin == null">
                                 <span>Register</span>
                             </nuxt-link>
-                            <nuxt-link to="/login" class="login">
+                            <a to="/userInformation" v-if="checkLogin !== null" class="register username">
+                                <span class="hi">Hi</span>
+                                <span>{{$store.state.loginStore.statusLogin.username}}</span>
+                            </a>
+                            <nuxt-link to="/login" class="login" v-if="checkLogin== null">
                                 <span>Login</span>
                             </nuxt-link>
+                                <span v-if="checkLogin !== null" class="login logout" @click="logout">Logout </span>
                         </div>
                     </div>
                 </div>
@@ -42,13 +47,19 @@
 export default {
     data(){
         return{
-            searchPost: ''
         }
     },
-    watch:{
-        searchPosts(value){
-            this.state.commit('postStore/searchPost', value)
-        }
+    computed:{
+        checkLogin() {
+            return this.$store.state.loginStore.statusLogin
+            console.log('User :',this.$store.state.loginStore.userLogin.username)
+        },
+    },
+    methods:{
+        logout() {
+            this.$store.commit('loginStore/userLogout')
+            this.$router.push('/')
+        },
     }
 }
 </script>
@@ -111,8 +122,13 @@ export default {
             display: flex;
             margin: 0 auto;
             background: $background-color;
+            height: 47px;
             @include respond-to($large-desktop){
-                justify-content: flex-end
+                justify-content: flex-end;
+                height: auto;
+            }
+            @include respond-to($phone){
+                height: auto;
             }
             
             .menu-title{
@@ -139,7 +155,7 @@ export default {
                 .title-nav{
                 align-items: center;
                 display: flex;
-                height: 47px;
+                height: 100%;
                 @include respond-to($phone){
                     margin: 0 auto;
                     height: auto;
@@ -198,6 +214,7 @@ export default {
                             width: 200px;
                             border: none;
                             outline: none;
+                            cursor: not-allowed ;
                         }
                         .material-icons{
                             background: $white;
@@ -221,6 +238,7 @@ export default {
                             height: 40px;
                             margin: 0 auto
                         }
+                        
                         .register,.login{
                             padding: 0 20px;
                             height: 100%;
@@ -242,6 +260,24 @@ export default {
                             background: $background-color;
                             border-right: none;
                             
+                            }
+                        }
+                        .username{
+                            display: flex;
+                            align-items: center;
+                            text-overflow: ellipsis;
+                            cursor: pointer;
+                            span{
+                                margin-right: 5px;
+                                font-size: 12px;
+                            }
+                            .hi{
+                                color: $st-color;
+                            }
+                        }
+                        .logout{
+                            &:hover{
+                                color: $danger;
                             }
                         }
                     }
